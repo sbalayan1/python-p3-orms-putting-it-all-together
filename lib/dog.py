@@ -79,3 +79,27 @@ class Dog:
     @classmethod
     def find_by_id(cls, id):
         pass
+        sql = """
+            SELECT * FROM dogs WHERE id = ? LIMIT 1
+        """
+
+        row = CURSOR.execute(sql, (id,)).fetchone()
+        dog = Dog(row[1], row[2])
+        dog.id = row[0]
+        return dog
+
+    @classmethod
+    def find_or_create_by(cls, name, breed):
+        pass
+        sql = """
+            SELECT * FROM dogs WHERE (name, breed) = (?, ?) LIMIT 1
+        """
+
+        row = CURSOR.execute(sql, (name, breed)).fetchone()
+        if not row:
+            dog = cls.create(name, breed)
+            # print(dog)
+            return dog
+
+        cls.new_from_db(row)
+        # return dog
