@@ -67,6 +67,15 @@ class Dog:
         sql = """
             SELECT * FROM dogs WHERE name = ? LIMIT 1
         """
-        dog = CURSOR.execute(sql, (name,)).fetchone()
-        print(dog)
-        # return cls.new_from_db(dog)
+        row = CURSOR.execute(sql, (name,)).fetchone()
+        dog = Dog(
+            name=row[1],
+            breed=row[2]
+        )
+
+        dog.id = row[0]
+        return dog
+    
+    @classmethod
+    def find_by_id(cls, id):
+        pass
