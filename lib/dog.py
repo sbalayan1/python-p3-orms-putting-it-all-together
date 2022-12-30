@@ -68,6 +68,9 @@ class Dog:
             SELECT * FROM dogs WHERE name = ? LIMIT 1
         """
         row = CURSOR.execute(sql, (name,)).fetchone()
+        if not row:
+            return None
+
         dog = Dog(
             name=row[1],
             breed=row[2]
@@ -103,3 +106,17 @@ class Dog:
 
         cls.new_from_db(row)
         # return dog
+
+    # @classmethod
+    def update(self):
+        pass
+        sql = """
+            UPDATE dogs
+            SET name = ?,
+                breed = ?
+            WHERE id = ?
+        """
+
+        CURSOR.execute(sql, (self.name, self.breed, self.id))
+
+
